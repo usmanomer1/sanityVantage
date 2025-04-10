@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'post',
@@ -8,15 +8,27 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Title',
-      type: 'string',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English',
+          type: 'string',
+        },
+        {
+          name: 'zh',
+          title: 'Chinese',
+          type: 'string',
+        },
+      ],
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
+      title: 'Slug (English only)',
       type: 'slug',
       options: {
-        source: 'title',
-        maxLength: 180, // Increased from 96
+        source: 'title.en',
+        maxLength: 180,
       },
     }),
     defineField({
@@ -25,16 +37,29 @@ export default defineType({
       type: 'datetime',
     }),
     defineField({
-      name: 'body',
-      title: 'Content',
-      type: 'array',
-      of: [{type: 'block'}],
-    }),
-    defineField({
       name: 'cloudinaryImage',
       title: 'Cloudinary Image URL',
       type: 'url',
-      description: 'Paste a Cloudinary image link here',
+      description: 'Paste Cloudinary image link',
+    }),
+    defineField({
+      name: 'body',
+      title: 'Content',
+      type: 'object',
+      fields: [
+        {
+          name: 'en',
+          title: 'English',
+          type: 'array',
+          of: [{ type: 'block' }],
+        },
+        {
+          name: 'zh',
+          title: 'Chinese',
+          type: 'array',
+          of: [{ type: 'block' }],
+        },
+      ],
     }),
   ],
 })
